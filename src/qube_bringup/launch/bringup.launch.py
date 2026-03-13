@@ -12,27 +12,23 @@ def generate_launch_description():
     qube_driver_pkg = get_package_share_directory('qube_driver')
     qube_bringup_pkg = get_package_share_directory('qube_bringup')
 
-    # Prosesser xacro-filen til URDF
     urdf = xacro.process_file(
         os.path.join(qube_bringup_pkg, 'urdf', 'controlled_qube.urdf.xacro')
     )
     robot_description = {'robot_description': urdf.toxml()}
 
-    # Start qube_driver.launch.py fra qube_driver-pakken
     qube_driver_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(qube_driver_pkg, 'launch', 'qube_driver.launch.py')
         )
     )
 
-    # Robot State Publisher
     robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
         parameters=[robot_description]
     )
 
-    # RViz
     rviz = Node(
         package='rviz2',
         executable='rviz2',
