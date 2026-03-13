@@ -68,4 +68,18 @@
 
   </xacro:macro>
 
+  <xacro:arg name="baud_rate"  default="115200"/>
+  <xacro:arg name="device"     default="/dev/ttyUSB0"/>
+  <xacro:arg name="simulation" default="false"/>
+
+  <xacro:qube prefix=""/>
+
+  <xacro:qube_driver_ros2_control
+    name="qube_driver"
+    prefix=""
+    baud_rate="$(arg baud_rate)"
+    device="$(arg device)"
+    simulation="$(arg simulation)"/>
+
+
 </robot>
