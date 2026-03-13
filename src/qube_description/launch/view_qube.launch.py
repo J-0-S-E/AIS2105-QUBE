@@ -7,7 +7,7 @@ import xacro
 
 def generate_launch_description():
     pkg_share = get_package_share_directory('qube_description')
-    urdf_path = os.path.join(pkg_share, 'urdf', 'qube.urdf.xacro')
+    urdf_path = os.path.join(pkg_share, 'urdf', 'qube.macro.xacro')
 
     robot_description_content = xacro.process_file(urdf_path).toxml()
 
