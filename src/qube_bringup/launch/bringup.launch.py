@@ -10,11 +10,12 @@ from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
 
+    # Henter install-stier til pakkene vi bruker
     qube_bringup_pkg = get_package_share_directory('qube_bringup')
     qube_driver_pkg = get_package_share_directory('qube_driver')
     qube_description_pkg = get_package_share_directory('qube_description')
 
-    # Launch-argumenter for enkel bytte mellom simulering og fysisk hardware
+    # Default values; kan endres fra terminalen, f.eks: simulation:=false, device:=/dev/ttyACM0
     simulation_arg = DeclareLaunchArgument(
         'simulation', default_value='true',
         description='Bruk simulert hardware (true) eller fysisk QUBE (false)'
@@ -28,7 +29,7 @@ def generate_launch_description():
         description='Baud rate for seriellkommunikasjon'
     )
 
-    # Prosesser URDF med xacro ved launch-tid slik at argumentene sendes videre
+    # Kjører xacro ved oppstart. Sender argumentene inn i URDF-en.
     xacro_file = os.path.join(qube_bringup_pkg, 'urdf', 'controlled_qube.urdf.xacro')
     robot_description = ParameterValue(
         Command([
@@ -40,22 +41,21 @@ def generate_launch_description():
         value_type=str
     )
 
-    # Robot state publisher - publiserer robot_description til /robot_description topic
-    # som ros2_control_node abonnerer på for å laste hardware-interface
+    # Publiserer URDF-en og oppdaterer ledd-transformasjonene
     robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
         parameters=[{'robot_description': robot_description}],
     )
 
-    # Inkluder qube_driver launch (controller_manager + joint_state_broadcaster + velocity_controller)
+    # Starter controller_manager, joint_state_broadcaster og velocity_controller
     qube_driver_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(qube_driver_pkg, 'launch', 'qube_driver.launch.py')
         )
     )
 
-    # RViz med ferdig konfigurert visning
+    # Visualisering i rviz med konfig fra qube_description
     rviz = Node(
         package='rviz2',
         executable='rviz2',

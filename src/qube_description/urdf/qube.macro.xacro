@@ -46,20 +46,20 @@
       </visual>
     </link>
 
-    <!-- Boks plasseres oppå base_link -->
+    <!-- Boks plasseres på base_link -->
     <joint name="${prefix}stator_joint" type="fixed">
       <parent link="${prefix}base_link"/>
       <child link="${prefix}stator_link"/>
       <origin xyz="0 0 ${stator_size/2}" rpy="0 0 0"/>
     </joint>
 
-    <!-- Roterende ledd - må hete motor_join -->
+    <!-- Roterende ledd, må hete motor_joint -->
     <joint name="${prefix}motor_joint" type="revolute">
       <parent link="${prefix}stator_link"/>
       <child link="${prefix}rotor_link"/>
       <origin xyz="0 0 ${stator_size/2 + rotor_length/2}" rpy="0 0 0"/>
       <axis xyz="0 0 1"/>
-      <limit lower="-3.1416" upper="3.1416" effort="1" velocity="1"/>
+      <limit lower="-3.1416" upper="3.1416" effort="1" velocity="1"/>  <!-- +- pi radianer -->
     </joint>
 
     <!-- Viseren montert på disken -->

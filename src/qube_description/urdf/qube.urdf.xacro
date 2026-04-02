@@ -5,7 +5,7 @@
   <!-- Henter inn makroen fra makrofilen -->
   <xacro:include filename="$(find qube_description)/urdf/qube.macro.xacro"/>
 
-  <!-- World-link er et fast referansepunkt i verdensrommet -->
+  <!-- nullpunkt som alt annet er relativt til -->
   <link name="world"/>
 
   <!-- Kaller makroen med tomt prefix siden vi bare har én QUBE -->

@@ -1,13 +1,16 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="controlled_qube">
 
+  <!-- Henter inn scene-filen fra qube_description og ros2_control-grensesnittet til qube_driver -->
   <xacro:include filename="$(find qube_description)/urdf/qube.urdf.xacro"/>
   <xacro:include filename="$(find qube_driver)/ros2_control/qube_driver.ros2_control.xacro"/>
 
+  <!-- Default values; overskrives av argumentene fra bringup.launch.py -->
   <xacro:arg name="baud_rate"  default="115200"/>
   <xacro:arg name="device"     default="/dev/ttyACM0"/>
   <xacro:arg name="simulation" default="false"/>
 
+  <!-- Kaller qube_driver_ros2_control-makroen med argumentene over -->
   <xacro:qube_driver_ros2_control
     name="qube_driver"
     prefix=""
