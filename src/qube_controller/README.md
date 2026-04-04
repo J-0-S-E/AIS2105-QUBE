@@ -27,4 +27,4 @@ Pådraget publiseres til `/velocity_controller/commands` som en `Float64MultiArr
 ## PID-parametere
 
 PID-parameterne `kp`, `ki` og `kd` kan justeres i koden og i vinduet som dukker opp ved kjøring av programmet.
-Anbefaling: Start med kun P-ledd (`ki=0`, `kd=0`) og juster derfra. Man trenger ikke ha høye verdier på parameterne (Prøv <5)
+Anbefaling: Start med kun P-ledd (`ki=0`, `kd=0`) og juster derfra. Man trenger ikke ha høye verdier på parameterne.
