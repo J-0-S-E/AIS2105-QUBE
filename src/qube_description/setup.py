@@ -23,7 +23,7 @@ setup(
     zip_safe=True,
     maintainer='kristian',
     maintainer_email='kristian.lokkeberg@gmail.com',
-    description='TODO: Package description',
+    description='Beskrivelse av Quanser-kuben',
     license='TODO: License declaration',
     extras_require={
         'test': [
