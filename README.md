@@ -9,9 +9,9 @@ Styring og visualisering av en Quanser Qube med ROS2, PID-regulator og RViz.
 | Pakke | Beskrivelse | Viktige filer |
 |-------|-------------|---------------|
 | `qube_description` | URDF-beskrivelse av Quben med xacro-makro. Svart boks, rød disk, hvit viser. Kan visualiseres alene i RViz. | `urdf/qube.macro.xacro`, `urdf/qube.urdf.xacro`, `launch/view_qube.launch.py` |
-| `qube_driver` | Hardware-interface via ROS2 Control. Håndterer kommunikasjon med Teensy 4.1 og simulert hardware. | `ros2_control/qube_driver.ros2_control.xacro`, `launch/qube_driver.launch.py` |
+| `qube_driver` | Hardware-grensesnitt via ROS2 Control. Håndterer seriellkommunikasjon mot Teensy 4.1 og simulert hardware. | `ros2_control/qube_driver.ros2_control.xacro`, `launch/qube_driver.launch.py` |
 | `qube_bringup` | Setter sammen hele systemet i én launch-fil. Starter RViz, robot_state_publisher, controller_manager og velocity_controller. | `urdf/controlled_qube.urdf.xacro`, `launch/bringup.launch.py` |
-| `qube_controller` | PID-regulator som leser posisjon fra `/joint_states` og sender pådrag til `/velocity_controller/commands`. PID-verdier kan justeres live via `rqt_reconfigure`. | `qube_controller/qube_controller.py` |
+| `qube_controller` | PID-regulator som leser posisjon fra `/joint_states` og sender pådrag til `/velocity_controller/commands`. Parametere kan justeres i sanntid via `rqt_reconfigure`. | `qube_controller/qube_controller.py` |
 
 Alle pakkene ligger under `src/`.
 
@@ -68,6 +68,15 @@ Under `qube_controller` kan du endre:
 | `target_position` | Referansevinkel i radianer |
 
 Tips: Start med kun P-ledd (`ki=0`, `kd=0`) og juster derfra.
+
+## Topics
+
+Noden abonnerer på `/joint_states` for å lese posisjon og hastighet fra Quben. En PID-regulator beregner et hastighets-pådrag basert på avviket fra ønsket posisjon. Pådraget publiseres til `/velocity_controller/commands` som en `Float64MultiArray`.
+
+| Topic | Type | Retning |
+|-------|------|---------|
+| `/joint_states` | `sensor_msgs/JointState` | Inn (posisjon og hastighet) |
+| `/velocity_controller/commands` | `std_msgs/Float64MultiArray` | Ut (pådrag fra PID) |
 
 ## Avhengigheter
 
