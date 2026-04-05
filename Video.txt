@@ -1,0 +1,3 @@
+https://youtu.be/Q6Nvi1AIsQ0
+
+Link til video av Qube-servo, RViz og rqt_reconfigure kjørende samtidig
