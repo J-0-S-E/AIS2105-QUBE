@@ -8,10 +8,10 @@ Styring og visualisering av en Quanser Qube med ROS2, PID-regulator og RViz.
 
 | Pakke | Beskrivelse | Viktige filer |
 |-------|-------------|---------------|
-| `qube_description` | URDF-beskrivelse av Quben | `urdf/qube.macro.xacro`, `urdf/qube.urdf.xacro`, `launch/view_qube.launch.py` |
-| `qube_driver` | Hardware-grensesnitt (ROS2 Control) | `ros2_control/qube_driver.ros2_control.xacro`, `launch/qube_driver.launch.py` |
-| `qube_bringup` | Launch-filer som setter alt sammen | `urdf/controlled_qube.urdf.xacro`, `launch/bringup.launch.py` |
-| `qube_controller` | PID-regulator | `qube_controller/qube_controller.py` |
+| `qube_description` | URDF-beskrivelse av Quben med xacro-makro. Svart boks, rød disk, hvit viser. Kan visualiseres alene i RViz. | `urdf/qube.macro.xacro`, `urdf/qube.urdf.xacro`, `launch/view_qube.launch.py` |
+| `qube_driver` | Hardware-interface via ROS2 Control. Håndterer kommunikasjon med Teensy 4.1 og simulert hardware. | `ros2_control/qube_driver.ros2_control.xacro`, `launch/qube_driver.launch.py` |
+| `qube_bringup` | Setter sammen hele systemet i én launch-fil. Starter RViz, robot_state_publisher, controller_manager og velocity_controller. | `urdf/controlled_qube.urdf.xacro`, `launch/bringup.launch.py` |
+| `qube_controller` | PID-regulator som leser posisjon fra `/joint_states` og sender pådrag til `/velocity_controller/commands`. PID-verdier kan justeres live via `rqt_reconfigure`. | `qube_controller/qube_controller.py` |
 
 Alle pakkene ligger under `src/`.
 
@@ -41,7 +41,7 @@ ros2 launch qube_description view_qube.launch.py
 ros2 launch qube_bringup bringup.launch.py simulation:=false device:=/dev/ttyACM0
 ```
 
-Starter opp RViz, ROS2 Control og kobler til den fysiske Quben. Ta bort `simulation:=false device:=/dev/ttyACM0` om du bare vil kjøre simulering.
+Starter opp RViz, ROS2 Control og kobler til den fysiske Quben. Dropp `simulation:=false device:=/dev/ttyACM0` om du bare vil kjøre simulering.
 
 ### Start kontrolleren
 
